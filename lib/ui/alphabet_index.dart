@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class AlphabetIndex extends StatelessWidget {
   final List<String> items;
   final Color? backgroundColor;
-  const AlphabetIndex({super.key, required this.items, this.backgroundColor});
+  final Color? sideBArBackgroundColor;
+  const AlphabetIndex({super.key, required this.items, this.backgroundColor, this.sideBArBackgroundColor});
   static List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
 
   // List<String> items = ['Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Dragonfruit', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Blueberry', 'Cherry', 'Cherry', 'Cucumber', 'Avocado', 'Date', 'Cucumber', 'Eggplant', 'Elderberry', 'Kiwi', 'Kale', 'Xylophone', '2345276tv', '5gguggyds'];
@@ -65,7 +66,7 @@ class AlphabetIndex extends StatelessWidget {
             width: 20,
             jumpToSymbolsWithNoEntries: true,
             padding: const EdgeInsets.all(5),
-            decoration: const BoxDecoration(color: Color.fromARGB(255, 238, 238, 238), borderRadius: BorderRadius.all(Radius.circular(20))),
+            decoration: BoxDecoration(color: sideBArBackgroundColor ?? Color.fromARGB(255, 238, 238, 238), borderRadius: BorderRadius.all(Radius.circular(20))),
             symbolBuilder: (context, symbol, state) {
               final color = switch (state) {
                 AlphabetScrollbarItemState.active => Colors.red,
@@ -86,7 +87,7 @@ class AlphabetIndex extends StatelessWidget {
             },
           ),
           listOptions: ListOptions(
-            backgroundColor: Colors.white,
+            backgroundColor: backgroundColor ?? Colors.white,
             stickySectionHeader: true,
             showSectionHeaderForEmptySections: false,
             listHeaderBuilder: (context, symbol) => Padding(
