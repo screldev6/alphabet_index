@@ -120,7 +120,7 @@ class AlphabetIndex extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                     child: Container(
-                      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
+                      decoration: BoxDecoration(border: Border(bottom: BorderSide(color:borderColor?? Colors.grey))),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 18, right: 16, bottom: 10),
                         child: Text(
