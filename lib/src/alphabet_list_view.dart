@@ -80,37 +80,34 @@ class _AlphabetListViewState extends State<AlphabetListView> {
       _ => null,
     };
 
-    return Container(
-      color: Colors.white,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        textDirection: rowTextDirection,
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                AlphabetList(
-                  items: _sortedItems,
-                  scrollController: _scrollController,
-                  alphabetListOptions: widget.options.listOptions,
-                  symbolChangeNotifierList: _symbolChangeNotifierList,
-                  symbolChangeNotifierScrollbar: _symbolChangeNotifierScrollbar,
-                ),
-                AlphabetSymbolOverlay(
-                  alphabetOverlayOptions: widget.options.overlayOptions,
-                  symbolChangeNotifierScrollbar: _symbolChangeNotifierScrollbar,
-                ),
-              ],
-            ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      textDirection: rowTextDirection,
+      children: [
+        Expanded(
+          child: Stack(
+            children: [
+              AlphabetList(
+                items: _sortedItems,
+                scrollController: _scrollController,
+                alphabetListOptions: widget.options.listOptions,
+                symbolChangeNotifierList: _symbolChangeNotifierList,
+                symbolChangeNotifierScrollbar: _symbolChangeNotifierScrollbar,
+              ),
+              AlphabetSymbolOverlay(
+                alphabetOverlayOptions: widget.options.overlayOptions,
+                symbolChangeNotifierScrollbar: _symbolChangeNotifierScrollbar,
+              ),
+            ],
           ),
-          AlphabetScrollbar(
-            items: _sortedItems,
-            alphabetScrollbarOptions: widget.options.scrollbarOptions,
-            symbolChangeNotifierScrollbar: _symbolChangeNotifierScrollbar,
-            symbolChangeNotifierList: _symbolChangeNotifierList,
-          ),
-        ],
-      ),
+        ),
+        AlphabetScrollbar(
+          items: _sortedItems,
+          alphabetScrollbarOptions: widget.options.scrollbarOptions,
+          symbolChangeNotifierScrollbar: _symbolChangeNotifierScrollbar,
+          symbolChangeNotifierList: _symbolChangeNotifierList,
+        ),
+      ],
     );
   }
 

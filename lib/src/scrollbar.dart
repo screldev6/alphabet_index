@@ -78,7 +78,7 @@ class _AlphabetScrollbarState extends State<AlphabetScrollbar> {
       child: Container(
         // decoration: widget.alphabetScrollbarOptions.decoration,
         padding: widget.alphabetScrollbarOptions.padding ?? EdgeInsets.zero,
-        color: Colors.white,
+        color: widget.alphabetScrollbarOptions.backgroundColor,
         width: widget.alphabetScrollbarOptions.width,
         child: Semantics(
           explicitChildNodes: true,

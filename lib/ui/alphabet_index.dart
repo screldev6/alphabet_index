@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 class AlphabetIndex extends StatelessWidget {
   final List<String> items;
   final Color? backgroundColor;
-  final Color? sideBArBackgroundColor;
+  final Color? sideBarBackgroundColor;
   final Color? labelColor;
-  const AlphabetIndex({super.key, required this.items, this.backgroundColor, this.sideBArBackgroundColor, this.labelColor});
+  final Color? selectedColor;
+  const AlphabetIndex({super.key, required this.items, this.backgroundColor, this.sideBarBackgroundColor, this.labelColor, this.selectedColor});
   static List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
 
   // List<String> items = ['Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Dragonfruit', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Blueberry', 'Cherry', 'Cherry', 'Cucumber', 'Avocado', 'Date', 'Cucumber', 'Eggplant', 'Elderberry', 'Kiwi', 'Kale', 'Xylophone', '2345276tv', '5gguggyds'];
@@ -27,7 +28,21 @@ class AlphabetIndex extends StatelessWidget {
       final children = alphabeticMap[alphabet] ?? [];
       return AlphabetListViewItemGroup(
         tag: alphabet,
-        children: children.map((child) => Padding(padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 8), child: Text(child, style: TextStyle(fontWeight: FontWeight.bold, color: labelColor)))).toList(),
+        children: children
+            .map(
+              (child) => Padding(
+                padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12),
+                child: Container(
+                  padding: const EdgeInsets.only(bottom: 13),
+                  decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
+                  child: Text(
+                    child,
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12, color: labelColor ?? Color(0xff353535)),
+                  ),
+                ),
+              ),
+            )
+            .toList(),
       );
     }).toList();
 
@@ -54,9 +69,7 @@ class AlphabetIndex extends StatelessWidget {
                     child: Text(
                       symbol,
                       textScaler: TextScaler.noScaling,
-                      style: const TextStyle(
-                        color: Color.fromARGB(100, 225, 0, 0),
-                      ),
+                      style: TextStyle(color: selectedColor ?? Colors.red),
                     ),
                   ),
                 ),
@@ -67,10 +80,10 @@ class AlphabetIndex extends StatelessWidget {
             width: 20,
             jumpToSymbolsWithNoEntries: true,
             padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(color: sideBArBackgroundColor ?? Colors.red, borderRadius: const BorderRadius.all(Radius.circular(20))),
+            decoration: BoxDecoration(color: sideBarBackgroundColor ?? Colors.red, borderRadius: const BorderRadius.all(Radius.circular(20))),
             symbolBuilder: (context, symbol, state) {
               final color = switch (state) {
-                AlphabetScrollbarItemState.active => Colors.red,
+                AlphabetScrollbarItemState.active => selectedColor ?? Colors.red,
                 AlphabetScrollbarItemState.deactivated => Colors.grey,
                 _ => Colors.grey,
               };
@@ -104,10 +117,16 @@ class AlphabetIndex extends StatelessWidget {
                     color: backgroundColor ?? Colors.white,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 12, top: 8, right: 16, bottom: 5),
-                    child: Text(
-                      symbol,
-                      style: TextStyle(fontSize: 12, color: labelColor ?? Colors.grey),
+                    padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+                    child: Container(
+                      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey))),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 18, right: 16, bottom: 10),
+                        child: Text(
+                          symbol,
+                          style: TextStyle(fontSize: 12, color: labelColor ?? Colors.grey),
+                        ),
+                      ),
                     ),
                   ),
                 ),
