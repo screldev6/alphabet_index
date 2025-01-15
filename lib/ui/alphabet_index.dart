@@ -107,7 +107,7 @@ class AlphabetIndex extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 12, top: 8, right: 16, bottom: 5),
                     child: Text(
                       symbol,
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                      style: TextStyle(fontSize: 12, color: labelColor ?? Colors.grey),
                     ),
                   ),
                 ),
