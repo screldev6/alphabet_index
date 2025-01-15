@@ -67,7 +67,7 @@ class AlphabetIndex extends StatelessWidget {
             width: 20,
             jumpToSymbolsWithNoEntries: true,
             padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(color: sideBArBackgroundColor ?? const Color.fromARGB(255, 238, 238, 238), borderRadius: const BorderRadius.all(Radius.circular(20))),
+            decoration: BoxDecoration(color: sideBArBackgroundColor ?? Colors.red, borderRadius: const BorderRadius.all(Radius.circular(20))),
             symbolBuilder: (context, symbol, state) {
               final color = switch (state) {
                 AlphabetScrollbarItemState.active => Colors.red,
