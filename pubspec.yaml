@@ -1,0 +1,20 @@
+name: alphabet_index
+description: "A new Flutter package project."
+version: 0.0.1
+homepage: https://github.com/screldev6/alphabet_index
+
+environment:
+  sdk: ^3.5.4
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_sticky_header: ^0.7.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+flutter:
