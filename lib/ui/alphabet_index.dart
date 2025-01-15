@@ -8,7 +8,9 @@ class AlphabetIndex extends StatelessWidget {
   final Color? labelColor;
   final Color? selectedColor;
   final Color? borderColor;
-  const AlphabetIndex({super.key, required this.items, this.backgroundColor, this.sideBarBackgroundColor, this.labelColor, this.selectedColor, this.borderColor});
+  final double? height;
+  final double? width;
+  const AlphabetIndex({super.key, required this.items, this.backgroundColor, this.sideBarBackgroundColor, this.labelColor, this.selectedColor, this.borderColor, this.height, this.width});
   static List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
 
   // List<String> items = ['Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Dragonfruit', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Blueberry', 'Cherry', 'Cherry', 'Cucumber', 'Avocado', 'Date', 'Cucumber', 'Eggplant', 'Elderberry', 'Kiwi', 'Kale', 'Xylophone', '2345276tv', '5gguggyds'];
@@ -53,8 +55,8 @@ class AlphabetIndex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.sizeOf(context).width,
-      height: MediaQuery.sizeOf(context).height - 56,
+      width: width ?? MediaQuery.sizeOf(context).width,
+      height: height ?? MediaQuery.sizeOf(context).height,
       color: backgroundColor ?? Colors.white,
       padding: const EdgeInsets.only(right: 10, left: 10),
       child: AlphabetListView(
