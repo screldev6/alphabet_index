@@ -54,7 +54,7 @@ class AlphabetIndex extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: backgroundColor ?? Colors.white,
-      padding: const EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.only(right: 10,left: 10),
       child: AlphabetListView(
         items: generateItems(items: items),
         options: AlphabetListViewOptions(
