@@ -6,8 +6,8 @@ class AlphabetIndex extends StatelessWidget {
   final Color? backgroundColor;
   final Color? sideBarBackgroundColor;
   final Color? labelColor;
-  final Color? selectedColor; 
-  final Color? borderColor; 
+  final Color? selectedColor;
+  final Color? borderColor;
   const AlphabetIndex({super.key, required this.items, this.backgroundColor, this.sideBarBackgroundColor, this.labelColor, this.selectedColor, this.borderColor});
   static List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
 
@@ -35,7 +35,7 @@ class AlphabetIndex extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12),
                 child: Container(
                   padding: const EdgeInsets.only(bottom: 13),
-                  decoration: BoxDecoration(border: Border(bottom: BorderSide(color:borderColor?? Colors.grey))),
+                  decoration: BoxDecoration(border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey))),
                   child: Text(
                     child,
                     style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12, color: labelColor ?? Color(0xff353535)),
@@ -53,8 +53,10 @@ class AlphabetIndex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height - 56,
       color: backgroundColor ?? Colors.white,
-      padding: const EdgeInsets.only(right: 10,left: 10),
+      padding: const EdgeInsets.only(right: 10, left: 10),
       child: AlphabetListView(
         items: generateItems(items: items),
         options: AlphabetListViewOptions(
@@ -120,7 +122,7 @@ class AlphabetIndex extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 12.0, right: 12.0),
                     child: Container(
-                      decoration: BoxDecoration(border: Border(bottom: BorderSide(color:borderColor?? Colors.grey))),
+                      decoration: BoxDecoration(border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey))),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 18, right: 16, bottom: 10),
                         child: Text(
