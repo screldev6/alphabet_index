@@ -66,7 +66,7 @@ class AlphabetIndex extends StatelessWidget {
       width: width ?? MediaQuery.sizeOf(context).width,
       height: height ?? MediaQuery.sizeOf(context).height,
       color: backgroundColor ?? Colors.white,
-      padding: const EdgeInsets.only(right: 10, left: 10),
+      padding: const EdgeInsets.only(right: 5, left: 10),
       child: AlphabetListView(
         items: generateItems(items: items),
         options: AlphabetListViewOptions(
@@ -90,9 +90,9 @@ class AlphabetIndex extends StatelessWidget {
             },
           ),
           scrollbarOptions: ScrollbarOptions(
-            width: 20,
+            width: 40,
             jumpToSymbolsWithNoEntries: true,
-            padding: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(1),
             decoration: BoxDecoration(color: sideBarBackgroundColor ?? Colors.red, borderRadius: const BorderRadius.all(Radius.circular(20))),
             symbolBuilder: (context, symbol, state) {
               final color = switch (state) {
@@ -101,7 +101,7 @@ class AlphabetIndex extends StatelessWidget {
                 _ => Colors.grey,
               };
 
-              final size = switch (state) { AlphabetScrollbarItemState.active => 14.0, AlphabetScrollbarItemState.deactivated => 10.0, _ => 12.0 };
+              final size = switch (state) { AlphabetScrollbarItemState.active => 18.0, AlphabetScrollbarItemState.deactivated => 14.0, _ => 14.0 };
 
               return Center(
                 child: FittedBox(
