@@ -62,8 +62,6 @@ class AlphabetIndex extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<ScrollPhysics?> physicsNotifier = ValueNotifier<ScrollPhysics?>(physics);
-
     return Container(
       width: width ?? MediaQuery.sizeOf(context).width,
       height: height ?? MediaQuery.sizeOf(context).height,
@@ -103,13 +101,6 @@ class AlphabetIndex extends StatelessWidget {
                 AlphabetScrollbarItemState.deactivated => Colors.grey,
                 _ => Colors.grey,
               };
-
-              if (state == AlphabetScrollbarItemState.active) {
-                physicsNotifier = ValueNotifier(null);
-              } else if (state == AlphabetScrollbarItemState.deactivated || state == AlphabetScrollbarItemState.inactive) {
-                physicsNotifier = ValueNotifier(physics);
-              }
-
               final size = switch (state) { AlphabetScrollbarItemState.active => 18.0, AlphabetScrollbarItemState.deactivated => 14.0, _ => 14.0 };
 
               return Center(
@@ -123,7 +114,7 @@ class AlphabetIndex extends StatelessWidget {
             },
           ),
           listOptions: ListOptions(
-            physics: physicsNotifier.value,
+            physics: physics,
             backgroundColor: backgroundColor ?? Colors.white,
             stickySectionHeader: true,
             showSectionHeaderForEmptySections: false,
