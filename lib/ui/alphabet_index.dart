@@ -4,7 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class AlphabetIndex extends HookWidget {
   final List<String> items;
-  final int? initialItem;
+  final List<int>? initialSelectedIndexes;
   final Color? backgroundColor;
   final Color? sideBarBackgroundColor;
   final Color? labelColor;
@@ -20,7 +20,7 @@ class AlphabetIndex extends HookWidget {
   const AlphabetIndex({
     super.key,
     required this.items,
-    this.initialItem,
+    this.initialSelectedIndexes,
     this.backgroundColor,
     this.tileBackgroundColor,
     this.scrollBarHeight,
@@ -38,8 +38,8 @@ class AlphabetIndex extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize selectedIndex using the initialItem parameter
-    var selectedIndex = useState<int?>(initialItem);
+    // Initialize selectedIndexes using the initialSelectedIndexes parameter
+    var selectedIndexes = useState<List<int>>(initialSelectedIndexes ?? []);
 
     List<AlphabetListViewItemGroup> generateItems({required List<String> items}) {
       items.sort();
@@ -67,7 +67,13 @@ class AlphabetIndex extends HookWidget {
                   onTap: () {
                     if (onTap != null) {
                       onTap!(items[index]);
-                      selectedIndex.value = index; // Update the selected index
+                      if (selectedIndexes.value.contains(index)) {
+                        // If the index is already selected, remove it
+                        selectedIndexes.value = selectedIndexes.value.where((i) => i != index).toList();
+                      } else {
+                        // Otherwise, add it to the selected list
+                        selectedIndexes.value = [...selectedIndexes.value, index];
+                      }
                     }
                   },
                   child: Padding(
@@ -77,8 +83,8 @@ class AlphabetIndex extends HookWidget {
                       decoration: BoxDecoration(
                         border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey)),
                         borderRadius: BorderRadius.circular(10),
-                        // Highlight the item if it matches the selectedIndex
-                        color: selectedIndex.value == index
+                        // Highlight the item if its index is in the selectedIndexes list
+                        color: selectedIndexes.value.contains(index)
                             ? (tileBackgroundColor ?? Colors.blue) // Selected color
                             : Colors.transparent, // Default color
                       ),
@@ -87,7 +93,7 @@ class AlphabetIndex extends HookWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
-                          color: selectedIndex.value == index
+                          color: selectedIndexes.value.contains(index)
                               ? (selectedColor ?? Colors.white) // Selected text color
                               : (labelColor ?? const Color(0xff353535)), // Default text color
                         ),

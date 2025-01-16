@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Example'),
         ),
-        body: AlphabetIndexUi(),
+        body: const AlphabetIndexUi(),
       ),
     );
   }
@@ -33,8 +33,11 @@ class AlphabetIndexUi extends StatelessWidget {
         height: MediaQuery.sizeOf(context).height,
         color: Colors.black,
         child: AlphabetIndex(
-          onTap: (s) {},
-          // tileBackgroundColor: Colors.amber,
+          initialSelectedIndexes: [5, 10],
+          onTap: (s) {
+            print(s);
+          },
+          tileBackgroundColor: Colors.amber,
           // physics: NeverScrollableScrollPhysics(),
           selectedColor: Colors.white,
           sideBarBackgroundColor: Colors.black,
