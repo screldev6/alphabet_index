@@ -1,7 +1,8 @@
 import 'package:alphabet_index/alphabet_list_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class AlphabetIndex extends StatelessWidget {
+class AlphabetIndex extends HookWidget {
   final List<String> items;
   final Color? backgroundColor;
   final Color? sideBarBackgroundColor;
@@ -17,61 +18,77 @@ class AlphabetIndex extends StatelessWidget {
   const AlphabetIndex({super.key, required this.items, this.physics, this.backgroundColor, this.tileBackgroundColor, this.scrollBarHeight, this.sideBarBackgroundColor, this.onTap, this.labelColor, this.selectedColor, this.borderColor, this.height, this.width});
   static List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
 
-  List<AlphabetListViewItemGroup> generateItems({required List<String> items}) {
-    items.sort();
-    Map<String, List<String>> alphabeticMap = {};
-    for (String item in items) {
-      String startingLetter = item[0].toUpperCase();
-      alphabeticMap.putIfAbsent(startingLetter, () => []).add(item);
-    }
-    final List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
-    for (String letter in alphabets) {
-      alphabeticMap.putIfAbsent(letter, () => []);
-    }
+  @override
+  Widget build(BuildContext context) {
+    var selectedIndex = useState<int?>(null);
 
-    final List<AlphabetListViewItemGroup> groupedItems = alphabets.map((alphabet) {
-      final children = alphabeticMap[alphabet] ?? [];
-      return AlphabetListViewItemGroup(
-        tag: alphabet,
-        children: children
-            .map(
-              (val) => InkWell(
-                onTap: () {
-                  if (onTap != null) {
-                    onTap!(val);
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 10),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey)),
-                      borderRadius: BorderRadius.circular(10),
-                      color: tileBackgroundColor,
-                    ),
-                    child: Text(
-                      val,
-                      style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12, color: labelColor ?? Color(0xff353535)),
+    List<AlphabetListViewItemGroup> generateItems({required List<String> items}) {
+      items.sort();
+      Map<String, List<int>> alphabeticMap = {};
+
+      // Map items by their starting letters along with their indices
+      for (int i = 0; i < items.length; i++) {
+        String startingLetter = items[i][0].toUpperCase();
+        alphabeticMap.putIfAbsent(startingLetter, () => []).add(i);
+      }
+
+      final List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
+      for (String letter in alphabets) {
+        alphabeticMap.putIfAbsent(letter, () => []);
+      }
+
+      // Build grouped items
+      final List<AlphabetListViewItemGroup> groupedItems = alphabets.map((alphabet) {
+        final indices = alphabeticMap[alphabet] ?? [];
+        return AlphabetListViewItemGroup(
+          tag: alphabet,
+          children: indices
+              .map(
+                (index) => InkWell(
+                  onTap: () {
+                    if (onTap != null) {
+                      onTap!(items[index]);
+                      selectedIndex.value = index; // Update the selected index
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 10),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+                      decoration: BoxDecoration(
+                        border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey)),
+                        borderRadius: BorderRadius.circular(10),
+                        // Change background color based on index
+                        color: selectedIndex.value == index
+                            ? (tileBackgroundColor ?? Colors.blue) // Selected color
+                            : Colors.transparent, // Default color
+                      ),
+                      child: Text(
+                        items[index],
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 12,
+                          color: selectedIndex.value == index
+                              ? (selectedColor ?? Colors.white) // Selected text color
+                              : (labelColor ?? const Color(0xff353535)), // Default text color
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
-            .toList(),
-      );
-    }).toList();
+              )
+              .toList(),
+        );
+      }).toList();
 
-    return groupedItems;
-  }
+      return groupedItems;
+    }
 
-  @override
-  Widget build(BuildContext context) {
     return Container(
       width: width ?? MediaQuery.sizeOf(context).width,
       height: height ?? MediaQuery.sizeOf(context).height,
       color: backgroundColor ?? Colors.white,
-      padding: const EdgeInsets.only(right: 5, left: 10),
+      // padding: const EdgeInsets.only(right: 5, left: 10),
       child: AlphabetListView(
         items: generateItems(items: items),
         options: AlphabetListViewOptions(
