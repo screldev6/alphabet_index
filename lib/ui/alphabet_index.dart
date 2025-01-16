@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class AlphabetIndex extends HookWidget {
   final List<String> items;
+  final int? initialItem;
   final Color? backgroundColor;
   final Color? sideBarBackgroundColor;
   final Color? labelColor;
@@ -15,12 +16,30 @@ class AlphabetIndex extends HookWidget {
   final double? width;
   final ScrollPhysics? physics;
   final void Function(String)? onTap;
-  const AlphabetIndex({super.key, required this.items, this.physics, this.backgroundColor, this.tileBackgroundColor, this.scrollBarHeight, this.sideBarBackgroundColor, this.onTap, this.labelColor, this.selectedColor, this.borderColor, this.height, this.width});
+
+  const AlphabetIndex({
+    super.key,
+    required this.items,
+    this.initialItem,
+    this.backgroundColor,
+    this.tileBackgroundColor,
+    this.scrollBarHeight,
+    this.sideBarBackgroundColor,
+    this.onTap,
+    this.labelColor,
+    this.selectedColor,
+    this.borderColor,
+    this.height,
+    this.width,
+    this.physics,
+  });
+
   static List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
 
   @override
   Widget build(BuildContext context) {
-    var selectedIndex = useState<int?>(null);
+    // Initialize selectedIndex using the initialItem parameter
+    var selectedIndex = useState<int?>(initialItem);
 
     List<AlphabetListViewItemGroup> generateItems({required List<String> items}) {
       items.sort();
@@ -58,7 +77,7 @@ class AlphabetIndex extends HookWidget {
                       decoration: BoxDecoration(
                         border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey)),
                         borderRadius: BorderRadius.circular(10),
-                        // Change background color based on index
+                        // Highlight the item if it matches the selectedIndex
                         color: selectedIndex.value == index
                             ? (tileBackgroundColor ?? Colors.blue) // Selected color
                             : Colors.transparent, // Default color
@@ -88,7 +107,6 @@ class AlphabetIndex extends HookWidget {
       width: width ?? MediaQuery.sizeOf(context).width,
       height: height ?? MediaQuery.sizeOf(context).height,
       color: backgroundColor ?? Colors.white,
-      // padding: const EdgeInsets.only(right: 5, left: 10),
       child: AlphabetListView(
         items: generateItems(items: items),
         options: AlphabetListViewOptions(
