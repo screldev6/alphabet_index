@@ -34,6 +34,8 @@ class AlphabetIndexUi extends StatelessWidget {
         color: Colors.black,
         child: AlphabetIndex(
           onTap: (s) {},
+          // tileBackgroundColor: Colors.amber,
+          // physics: NeverScrollableScrollPhysics(),
           selectedColor: Colors.white,
           sideBarBackgroundColor: Colors.black,
           borderColor: Colors.black,
