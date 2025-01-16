@@ -8,12 +8,13 @@ class AlphabetIndex extends StatelessWidget {
   final Color? labelColor;
   final Color? selectedColor;
   final Color? borderColor;
+  final Color? tileBackgroundColor;
   final double? height;
   final double? scrollBarHeight;
   final double? width;
   final ScrollPhysics? physics;
   final void Function(String)? onTap;
-  const AlphabetIndex({super.key, required this.items, this.physics, this.backgroundColor, this.scrollBarHeight, this.sideBarBackgroundColor, this.onTap, this.labelColor, this.selectedColor, this.borderColor, this.height, this.width});
+  const AlphabetIndex({super.key, required this.items, this.physics, this.backgroundColor, this.tileBackgroundColor, this.scrollBarHeight, this.sideBarBackgroundColor, this.onTap, this.labelColor, this.selectedColor, this.borderColor, this.height, this.width});
   static List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
 
   List<AlphabetListViewItemGroup> generateItems({required List<String> items}) {
@@ -41,10 +42,14 @@ class AlphabetIndex extends StatelessWidget {
                   }
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12),
+                  padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 10),
                   child: Container(
-                    padding: const EdgeInsets.only(bottom: 13),
-                    decoration: BoxDecoration(border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey))),
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey)),
+                      borderRadius: BorderRadius.circular(10),
+                      color: tileBackgroundColor,
+                    ),
                     child: Text(
                       val,
                       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12, color: labelColor ?? Color(0xff353535)),
@@ -135,7 +140,7 @@ class AlphabetIndex extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey))),
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 16, bottom: 10),
+                        padding: const EdgeInsets.only(right: 16, bottom: 5),
                         child: Text(
                           symbol,
                           style: TextStyle(fontSize: 12, color: labelColor ?? Colors.grey),
