@@ -16,8 +16,6 @@ class AlphabetIndex extends StatelessWidget {
   const AlphabetIndex({super.key, required this.items, this.physics, this.backgroundColor, this.scrollBarHeight, this.sideBarBackgroundColor, this.onTap, this.labelColor, this.selectedColor, this.borderColor, this.height, this.width});
   static List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
 
-  // List<String> items = ['Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Dragonfruit', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Blueberry', 'Cherry', 'Cherry', 'Cucumber', 'Avocado', 'Date', 'Cucumber', 'Eggplant', 'Elderberry', 'Kiwi', 'Kale', 'Xylophone', '2345276tv', '5gguggyds'];
-
   List<AlphabetListViewItemGroup> generateItems({required List<String> items}) {
     items.sort();
     Map<String, List<String>> alphabeticMap = {};
@@ -64,6 +62,8 @@ class AlphabetIndex extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ValueNotifier<ScrollPhysics?> physicsNotifier = ValueNotifier<ScrollPhysics?>(physics);
+
     return Container(
       width: width ?? MediaQuery.sizeOf(context).width,
       height: height ?? MediaQuery.sizeOf(context).height,
@@ -104,6 +104,12 @@ class AlphabetIndex extends StatelessWidget {
                 _ => Colors.grey,
               };
 
+              if (state == AlphabetScrollbarItemState.active) {
+                physicsNotifier = ValueNotifier(null);
+              } else if (state == AlphabetScrollbarItemState.deactivated || state == AlphabetScrollbarItemState.inactive) {
+                physicsNotifier = ValueNotifier(physics);
+              }
+
               final size = switch (state) { AlphabetScrollbarItemState.active => 18.0, AlphabetScrollbarItemState.deactivated => 14.0, _ => 14.0 };
 
               return Center(
@@ -117,7 +123,7 @@ class AlphabetIndex extends StatelessWidget {
             },
           ),
           listOptions: ListOptions(
-            physics: physics,
+            physics: physicsNotifier.value,
             backgroundColor: backgroundColor ?? Colors.white,
             stickySectionHeader: true,
             showSectionHeaderForEmptySections: false,
