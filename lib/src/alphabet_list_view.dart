@@ -81,7 +81,7 @@ class _AlphabetListViewState extends State<AlphabetListView> {
     };
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       textDirection: rowTextDirection,
       children: [
         Expanded(

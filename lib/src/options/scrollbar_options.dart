@@ -6,6 +6,7 @@ class ScrollbarOptions {
   /// Constructor of ScrollbarOptions
   const ScrollbarOptions({
     this.width = 40,
+    this.height,
     this.padding,
     this.mainAxisAlignment = MainAxisAlignment.spaceEvenly,
     this.backgroundColor,
@@ -22,6 +23,9 @@ class ScrollbarOptions {
 
   /// The width of the sidebar.
   final double width;
+
+   /// The height of the sidebar.
+  final double? height;
 
   /// Padding around the sidebar.
   final EdgeInsets? padding;

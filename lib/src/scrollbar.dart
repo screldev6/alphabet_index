@@ -73,47 +73,45 @@ class _AlphabetScrollbarState extends State<AlphabetScrollbar> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 100.0),
-      child: Container(
-        // decoration: widget.alphabetScrollbarOptions.decoration,
-        padding: widget.alphabetScrollbarOptions.padding ?? EdgeInsets.zero,
-        color: widget.alphabetScrollbarOptions.backgroundColor,
-        width: widget.alphabetScrollbarOptions.width,
-        child: Semantics(
-          explicitChildNodes: true,
-          child: Listener(
-            behavior: HitTestBehavior.translucent,
-            onPointerMove: _pointerMoveEventHandler,
-            onPointerDown: _pointerMoveEventHandler,
-            child: Column(
-              mainAxisAlignment: widget.alphabetScrollbarOptions.mainAxisAlignment,
-              mainAxisSize: MainAxisSize.min,
-              children: _uniqueItems
-                  .map(
-                    (symbol) => Flexible(
-                      child: Semantics(
-                        button: true,
-                        child: Container(
-                          height: 100,
-                          color: Colors.transparent,
-                          width: widget.alphabetScrollbarOptions.width,
-                          key: _symbolKeys[symbol],
-                          child: widget.alphabetScrollbarOptions.symbolBuilder?.call(
-                                context,
-                                symbol,
-                                _getSymbolState(symbol),
-                              ) ??
-                              DefaultScrollbarSymbol(
-                                symbol: symbol,
-                                state: _getSymbolState(symbol),
-                              ),
-                        ),
+    return Container(
+      height: widget.alphabetScrollbarOptions.height,
+      // decoration: widget.alphabetScrollbarOptions.decoration,
+      padding: widget.alphabetScrollbarOptions.padding ?? EdgeInsets.zero,
+      color: widget.alphabetScrollbarOptions.backgroundColor,
+      width: widget.alphabetScrollbarOptions.width,
+      child: Semantics(
+        explicitChildNodes: true,
+        child: Listener(
+          behavior: HitTestBehavior.translucent,
+          onPointerMove: _pointerMoveEventHandler,
+          onPointerDown: _pointerMoveEventHandler,
+          child: Column(
+            mainAxisAlignment: widget.alphabetScrollbarOptions.mainAxisAlignment,
+            mainAxisSize: MainAxisSize.min,
+            children: _uniqueItems
+                .map(
+                  (symbol) => Flexible(
+                    child: Semantics(
+                      button: true,
+                      child: Container(
+                        height: 100,
+                        color: Colors.transparent,
+                        width: widget.alphabetScrollbarOptions.width,
+                        key: _symbolKeys[symbol],
+                        child: widget.alphabetScrollbarOptions.symbolBuilder?.call(
+                              context,
+                              symbol,
+                              _getSymbolState(symbol),
+                            ) ??
+                            DefaultScrollbarSymbol(
+                              symbol: symbol,
+                              state: _getSymbolState(symbol),
+                            ),
                       ),
                     ),
-                  )
-                  .toList(),
-            ),
+                  ),
+                )
+                .toList(),
           ),
         ),
       ),
