@@ -10,7 +10,8 @@ class AlphabetIndex extends StatelessWidget {
   final Color? borderColor;
   final double? height;
   final double? width;
-  const AlphabetIndex({super.key, required this.items, this.backgroundColor, this.sideBarBackgroundColor, this.labelColor, this.selectedColor, this.borderColor, this.height, this.width});
+  final void Function(String)? onTap;
+  const AlphabetIndex({super.key, required this.items, this.backgroundColor, this.sideBarBackgroundColor, this.onTap, this.labelColor, this.selectedColor, this.borderColor, this.height, this.width});
   static List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
 
   // List<String> items = ['Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Banana', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Apple', 'Dragonfruit', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Avocado', 'Apple', 'Blueberry', 'Cherry', 'Cherry', 'Cucumber', 'Avocado', 'Date', 'Cucumber', 'Eggplant', 'Elderberry', 'Kiwi', 'Kale', 'Xylophone', '2345276tv', '5gguggyds'];
@@ -33,14 +34,21 @@ class AlphabetIndex extends StatelessWidget {
         tag: alphabet,
         children: children
             .map(
-              (child) => Padding(
-                padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12),
-                child: Container(
-                  padding: const EdgeInsets.only(bottom: 13),
-                  decoration: BoxDecoration(border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey))),
-                  child: Text(
-                    child,
-                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12, color: labelColor ?? Color(0xff353535)),
+              (val) => InkWell(
+                onTap: () {
+                  if (onTap != null) {
+                    onTap!(val);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 12),
+                  child: Container(
+                    padding: const EdgeInsets.only(bottom: 13),
+                    decoration: BoxDecoration(border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey))),
+                    child: Text(
+                      val,
+                      style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12, color: labelColor ?? Color(0xff353535)),
+                    ),
                   ),
                 ),
               ),
