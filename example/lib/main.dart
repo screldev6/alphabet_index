@@ -32,17 +32,14 @@ class AlphabetIndexUi extends StatelessWidget {
         width: MediaQuery.sizeOf(context).width,
         height: MediaQuery.sizeOf(context).height,
         color: Colors.black,
-        child: Column(
-          children: [
-            AlphabetIndex(
-              selectedColor: Colors.white,
-              sideBarBackgroundColor: Colors.black,
-              borderColor: Colors.black,
-              backgroundColor: Colors.black,
-              labelColor: Colors.white,
-              items: items,
-            ),
-          ],
+        child: AlphabetIndex(
+          onTap: (s) {},
+          selectedColor: Colors.white,
+          sideBarBackgroundColor: Colors.black,
+          borderColor: Colors.black,
+          backgroundColor: Colors.black,
+          labelColor: Colors.white,
+          items: items,
         ));
   }
 }
