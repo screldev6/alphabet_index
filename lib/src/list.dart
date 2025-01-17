@@ -98,6 +98,7 @@ class _AlphabetListState extends State<AlphabetList> {
           key: _customScrollKey,
           controller: widget.scrollController,
           physics: widget.alphabetListOptions.physics,
+          keyboardDismissBehavior: widget.alphabetListOptions.keyboardDismissBehavior,
           slivers: [
             SliverToBoxAdapter(
               child: SizedBox(

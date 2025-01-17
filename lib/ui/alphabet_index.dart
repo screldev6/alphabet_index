@@ -8,6 +8,7 @@ class AlphabetIndex extends HookWidget {
   final List<int>? initialSelectedIndexes;
   final Color? backgroundColor;
   final Color? sideBarBackgroundColor;
+  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
   final Color? labelColor;
   final Color? selectedColor;
   final Color? borderColor;
@@ -27,6 +28,7 @@ class AlphabetIndex extends HookWidget {
     this.tileBackgroundColor,
     this.scrollBarHeight,
     this.sideBarBackgroundColor,
+    required this.keyboardDismissBehavior,
     this.onTap,
     this.labelColor,
     this.selectedColor,
@@ -196,6 +198,7 @@ class AlphabetIndex extends HookWidget {
             },
           ),
           listOptions: ListOptions(
+            keyboardDismissBehavior: keyboardDismissBehavior,
             physics: physics,
             backgroundColor: backgroundColor ?? Colors.white,
             stickySectionHeader: true,

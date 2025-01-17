@@ -9,6 +9,7 @@ class ListOptions {
     this.topOffset,
     this.padding,
     this.physics,
+    this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
     this.showSectionHeader = true,
     this.stickySectionHeader = true,
     this.showSectionHeaderForEmptySections = false,
@@ -28,6 +29,9 @@ class ListOptions {
 
   /// Padding around the list.
   final EdgeInsets? padding;
+
+  /// Keyboard dissmiss behaviour
+  final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
 
   /// Custom scroll physics.
   final ScrollPhysics? physics;
