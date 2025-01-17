@@ -4,6 +4,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 class AlphabetIndex extends HookWidget {
   final List<String> items;
+  final List<String>? favItems;
   final List<int>? initialSelectedIndexes;
   final Color? backgroundColor;
   final Color? sideBarBackgroundColor;
@@ -20,6 +21,7 @@ class AlphabetIndex extends HookWidget {
   const AlphabetIndex({
     super.key,
     required this.items,
+    this.favItems,
     this.initialSelectedIndexes,
     this.backgroundColor,
     this.tileBackgroundColor,
@@ -41,70 +43,104 @@ class AlphabetIndex extends HookWidget {
     // Initialize selectedIndexes using the initialSelectedIndexes parameter
     var selectedIndexes = useState<List<int>>(initialSelectedIndexes ?? []);
 
-    List<AlphabetListViewItemGroup> generateItems({required List<String> items}) {
-      items.sort();
+    // Helper function to build a list item widget
+    Widget buildListItem({
+      required List<String> items,
+      required int index,
+    }) {
+      return InkWell(
+        onTap: () {
+          if (onTap != null) {
+            onTap!(items[index]);
+            if (selectedIndexes.value.contains(index)) {
+              // Remove the item from the selection
+              selectedIndexes.value = selectedIndexes.value.where((i) => i != index).toList();
+            } else {
+              // Add the item to the selection
+              selectedIndexes.value = [...selectedIndexes.value, index];
+            }
+          }
+        },
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 10),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+            decoration: BoxDecoration(
+              border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey)),
+              borderRadius: BorderRadius.circular(10),
+              color: selectedIndexes.value.contains(index) ? (tileBackgroundColor ?? Colors.blue) : Colors.transparent,
+            ),
+            child: Text(
+              items[index],
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 12,
+                color: selectedIndexes.value.contains(index) ? (selectedColor ?? Colors.white) : (labelColor ?? const Color(0xff353535)),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    List<AlphabetListViewItemGroup> generateItems({
+      required List<String> items,
+      List<String>? favItems, // Optional favorite items
+    }) {
+      // Sort items alphabetically
+      items.sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
+
+      // Map to hold indices grouped by their starting alphabet
       Map<String, List<int>> alphabeticMap = {};
 
-      // Map items by their starting letters along with their indices
+      // Group items under "★" if they're in favItems, otherwise group alphabetically
+      final favoriteIndices = <int>[];
       for (int i = 0; i < items.length; i++) {
-        String startingLetter = items[i][0].toUpperCase();
-        alphabeticMap.putIfAbsent(startingLetter, () => []).add(i);
+        if (favItems != null && favItems.contains(items[i])) {
+          favoriteIndices.add(i);
+        } else {
+          String startingChar = items[i][0].toUpperCase();
+          if (!AlphabetIndex.alphabets.contains(startingChar)) {
+            startingChar = '#';
+          }
+          alphabeticMap.putIfAbsent(startingChar, () => []).add(i);
+        }
       }
 
-      final List<String> alphabets = List.generate(26, (index) => String.fromCharCode(65 + index));
+      // Ensure all alphabet groups are present, even if empty
+      final List<String> alphabets = ['★'] + AlphabetIndex.alphabets + ['#'];
       for (String letter in alphabets) {
         alphabeticMap.putIfAbsent(letter, () => []);
       }
 
-      // Build grouped items
-      final List<AlphabetListViewItemGroup> groupedItems = alphabets.map((alphabet) {
-        final indices = alphabeticMap[alphabet] ?? [];
-        return AlphabetListViewItemGroup(
-          tag: alphabet,
-          children: indices
+      // Build grouped items with "★" for favorites and others alphabetically
+      final List<AlphabetListViewItemGroup> groupedItems = [
+        AlphabetListViewItemGroup(
+          tag: '★',
+          children: favoriteIndices
               .map(
-                (index) => InkWell(
-                  onTap: () {
-                    if (onTap != null) {
-                      onTap!(items[index]);
-                      if (selectedIndexes.value.contains(index)) {
-                        // If the index is already selected, remove it
-                        selectedIndexes.value = selectedIndexes.value.where((i) => i != index).toList();
-                      } else {
-                        // Otherwise, add it to the selected list
-                        selectedIndexes.value = [...selectedIndexes.value, index];
-                      }
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 10),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-                      decoration: BoxDecoration(
-                        border: Border(bottom: BorderSide(color: borderColor ?? Colors.grey)),
-                        borderRadius: BorderRadius.circular(10),
-                        // Highlight the item if its index is in the selectedIndexes list
-                        color: selectedIndexes.value.contains(index)
-                            ? (tileBackgroundColor ?? Colors.blue) // Selected color
-                            : Colors.transparent, // Default color
-                      ),
-                      child: Text(
-                        items[index],
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 12,
-                          color: selectedIndexes.value.contains(index)
-                              ? (selectedColor ?? Colors.white) // Selected text color
-                              : (labelColor ?? const Color(0xff353535)), // Default text color
-                        ),
-                      ),
-                    ),
-                  ),
+                (index) => buildListItem(
+                  items: items,
+                  index: index,
                 ),
               )
               .toList(),
-        );
-      }).toList();
+        ),
+        ...alphabets.skip(1).map((alphabet) {
+          final indices = alphabeticMap[alphabet] ?? [];
+          return AlphabetListViewItemGroup(
+            tag: alphabet,
+            children: indices
+                .map(
+                  (index) => buildListItem(
+                    items: items,
+                    index: index,
+                  ),
+                )
+                .toList(),
+          );
+        }).toList(),
+      ];
 
       return groupedItems;
     }
@@ -114,7 +150,7 @@ class AlphabetIndex extends HookWidget {
       height: height ?? MediaQuery.sizeOf(context).height,
       color: backgroundColor ?? Colors.white,
       child: AlphabetListView(
-        items: generateItems(items: items),
+        items: generateItems(items: items, favItems: favItems),
         options: AlphabetListViewOptions(
           overlayOptions: OverlayOptions(
             alignment: Alignment.centerRight,

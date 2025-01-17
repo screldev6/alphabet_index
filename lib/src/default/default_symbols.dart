@@ -4,6 +4,7 @@ class DefaultScrollbarSymbols {
 
   /// 'A'-'Z' and '#'
   static const List<String> alphabet = [
+    '★',
     'A',
     'B',
     'C',
